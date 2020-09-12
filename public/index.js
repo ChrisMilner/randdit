@@ -1,14 +1,17 @@
 const CLIENT_ID = 'fgbcc-n0SlRCEw';
 const SCOPES = ['history', 'identity'];
-// const REDIRECT_URI = ;
 
 let upvotedPosts;
+
+const getRedirectUri = () => {
+    return window.location.origin + window.location.pathname;
+}
 
 function auth() {
     const authUri = window.snoowrap.getAuthUrl({
         clientId: CLIENT_ID,
         scope: SCOPES,
-        redirectUri: window.location.origin,
+        redirectUri: getRedirectUri(),
     });
     
     window.location = authUri;
@@ -28,7 +31,7 @@ function fetchPosts() {
     window.snoowrap.fromAuthCode({
         code: authCode,
         clientId: CLIENT_ID,
-        redirectUri: window.location.origin,
+        redirectUri: getRedirectUri(),
     }).then(reddit => {
         console.log('Fetching upvoted posts')
         setInterval(() => {
