@@ -58,4 +58,7 @@ function getRandomPost() {
     const link = document.getElementById('post-link');
     link.style.display = 'inherit';
     link.href = randomPost.url;
+
+    const linkText = document.getElementById('link-text');
+    linkText.innerHTML = randomPost.title;
 }
