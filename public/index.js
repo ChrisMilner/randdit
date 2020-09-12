@@ -59,6 +59,6 @@ function getRandomPost() {
     const linkText = document.getElementById('link-text');
     linkText.innerHTML = randomPost.title;
 
-    const iframe = document.getElementById('iframe');
-    iframe.src = randomPost.url;
+    const image = document.getElementById('image');
+    image.src = randomPost.url;
 }
