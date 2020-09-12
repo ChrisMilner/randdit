@@ -33,10 +33,7 @@ function fetchPosts() {
         clientId: CLIENT_ID,
         redirectUri: getRedirectUri(),
     }).then(reddit => {
-        console.log('Fetching upvoted posts')
-        setInterval(() => {
-            console.log(`Rate Limit Remaining: ${window.snoowrap.ratelimitRemaining}`);
-        }, 60000)
+        console.log('Fetching upvoted posts');
 
         reddit.getMe().getUpvotedContent().fetchAll().then(posts => {
             console.log('Posts Fetched');
@@ -61,4 +58,7 @@ function getRandomPost() {
 
     const linkText = document.getElementById('link-text');
     linkText.innerHTML = randomPost.title;
+
+    const iframe = document.getElementById('iframe');
+    iframe.src = randomPost.url;
 }
