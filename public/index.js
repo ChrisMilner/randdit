@@ -7,7 +7,7 @@ const getRedirectUri = () => {
     return window.location.origin + window.location.pathname;
 }
 
-function auth() {
+const auth = () => {
     const authUri = window.snoowrap.getAuthUrl({
         clientId: CLIENT_ID,
         scope: SCOPES,
@@ -17,7 +17,7 @@ function auth() {
     window.location = authUri;
 }
 
-function fetchPosts() {
+const fetchPosts = async () => {
     const params = new URLSearchParams(window.location.search);
     const authCode = params.get('code');
 
@@ -28,21 +28,18 @@ function fetchPosts() {
 
     console.log(`Authenticating with ${authCode}`);
 
-    window.snoowrap.fromAuthCode({
+    const reddit = await window.snoowrap.fromAuthCode({
         code: authCode,
         clientId: CLIENT_ID,
         redirectUri: getRedirectUri(),
-    }).then(reddit => {
-        console.log('Fetching upvoted posts');
-
-        reddit.getMe().getUpvotedContent().fetchAll().then(posts => {
-            console.log('Posts Fetched');
-            upvotedPosts = posts;
-        });
     });
+
+    console.log('Fetching upvoted posts');
+    upvotedPosts = await reddit.getMe().getUpvotedContent().fetchAll();
+    console.log('Posts Fetched');
 }
 
-function getRandomPost() {
+const getRandomPost = () => {
     if (!upvotedPosts) {
         console.log('No upvoted posts, make sure you\'ve fetched them');
         return;
